@@ -1,9 +1,12 @@
-from django.test import TestCase
-from django.test import SimpleTestCase
 
-class SimpleTests(SimpleTestCase):
-    def test_home_page_status_code(self):
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
- 
-# Create your tests here.
+from django.test import TestCase
+from .models import Posts
+
+class PostModelTest(TestCase):
+    def setUp(self) -> None:
+        Posts.objects.create(text='just a test') # ModelName.Objects
+    
+    def test_text_content(self): 
+        posts = Posts.objects.get(id=1)
+        expected_object_name = f'{posts.text}'
+        self.assertEqual(expected_object_name, "just a test")
